@@ -1,25 +1,23 @@
-# Plataforma Juvenil de Participación
+## Identidad del proyecto
 
-Este repositorio será utilizado para construir progresivamente un proyecto pedagógico sobre participación juvenil, transparencia, control ciudadano y tecnología.
+Nombre del estudiante: 
+Sebastian Cardona Cano
 
-## Advertencia
+Nombre de la plataforma:
+Plataforma Juvenil de Participación
 
-Este proyecto es únicamente académico.
+Propósito:
+Aprender cómo la tecnología puede apoyar ejercicios pedagógicos de participación juvenil,
+transparencia y trazabilidad.
 
-No corresponde a una elección real.
-No debe recolectar datos personales reales.
-No debe usarse para campañas reales.
-No debe utilizarse para señalar personas, organizaciones o entidades.
+## Reglas de cuidado
 
-## Herramientas
+- No usar datos reales.
+- No usar cédulas.
+- No usar información sensible.
+- No usar nombres de candidatos reales.
+- No presentar resultados como oficiales.
 
-- GitHub
-- GitHub Codespaces
-- GitHub Copilot
-- HTML
-- JavaScript
-- Node.js en clases posteriores
+## Importancia de Git
 
-## Evidencia
-
-Cada estudiante debe trabajar desde su propio fork y publicar sus avances en una rama de trabajo.
+Git permite registrar los cambios del proyecto y revisar qué se modificó en cada momento.
