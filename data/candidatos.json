@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": 1,
+    "nombre": "Perfil Transparencia Juvenil",
+    "rol": "Candidato pedagógico",
+    "propuesta": "Promover información clara, participación juvenil y trazabilidad en los procesos comunitarios.",
+    "estado": "Perfil de práctica académica"
+  },
+  {
+    "id": 2,
+    "nombre": "Perfil Comunidad Digital",
+    "rol": "Candidato pedagógico",
+    "propuesta": "Fortalecer el uso responsable de herramientas digitales para la organización y la comunicación comunitaria.",
+    "estado": "Perfil de práctica académica"
+  },
+  {
+    "id": 3,
+    "nombre": "Perfil Derechos y Participación",
+    "rol": "Candidato pedagógico",
+    "propuesta": "Impulsar el cuidado de datos, el respeto por los derechos y la participación informada.",
+    "estado": "Perfil de práctica académica"
+  },
+  {
+    "id": 1779833672155,
+    "nombre": "Sebastian",
+    "rol": "Veedor",
+    "propuesta": "Garantizar derechos",
+    "estado": "Perfil de práctica académica"
+  },
+  {
+    "id": 1779833742813,
+    "nombre": "Picachú",
+    "rol": "Veedor",
+    "propuesta": "Electrificar los derechos con mucha energía",
+    "estado": "Perfil de práctica académica"
+  },
+  {
+    "id": 1779833931414,
+    "nombre": "Fabio",
+    "rol": "Veedor",
+    "propuesta": "Diseñar el mundo democrático",
+    "estado": "Perfil de práctica académica"
+  }
+]

@@ -59,7 +59,8 @@ footer {
   background-color: white;
   padding: 25px;
   border-radius: 12px;
-  margin-top: 25px;
+  margin: 25px auto;
+  max-width: 900px;
 }
 
 .contenedor-candidatos {
@@ -93,7 +94,29 @@ footer {
 }
 
 .tarjeta-candidato button:hover {
-  background-color: #0caa14af;
+  background-color: #08ee14af;
+}
+
+.acciones-candidato {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btnEditar {
+  background-color: #1c7ed6;
+}
+
+.btnEditar:hover {
+  background-color: #1864ab;
+}
+
+.btnEliminar {
+  background-color: #d6336c;
+}
+
+.btnEliminar:hover {
+  background-color: #a61e4d;
 }
 
 .detalle-perfil {
@@ -102,4 +125,71 @@ footer {
   background-color: #F9EEF3;
   border-left: 5px solid #0caa14af;
   border-radius: 8px;
+}
+
+/* Formulario de candidatos */
+.formulario-candidato {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 25px auto;
+  max-width: 900px;
+  border-left: 5px solid #036d0c;
+}
+
+.formulario-candidato form {
+  display: grid;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.formulario-candidato label {
+  font-weight: bold;
+  color: #333;
+}
+
+.formulario-candidato input,
+.formulario-candidato textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.formulario-candidato input:focus,
+.formulario-candidato textarea:focus {
+  outline: 2px solid #54c016;
+  border-color: #54c016;
+}
+
+.formulario-candidato button[type="submit"] {
+  justify-self: start;
+  margin-top: 5px;
+}
+
+.mensaje-formulario {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.mensaje-formulario--exito {
+  background-color: #e8f8e8;
+  color: #1b6b1b;
+  border-left: 4px solid #54c016;
+}
+
+.mensaje-formulario--error {
+  background-color: #fdeaea;
+  color: #8b1a1a;
+  border-left: 4px solid #c0392b;
+}
+
+.lista-vacia {
+  grid-column: 1 / -1;
+  color: #666;
+  font-style: italic;
 }

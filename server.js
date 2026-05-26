@@ -49,8 +49,63 @@ app.post("/api/candidatos", function (req, res) {
   });
 });
 
+app.put("/api/candidatos/:id", function (req, res) {
+  const id = Number(req.params.id);
+  const nombre = req.body.nombre;
+  const rol = req.body.rol;
+  const propuesta = req.body.propuesta;
+
+  if (!nombre || !rol || !propuesta) {
+    return res.status(400).json({
+      mensaje: "Faltan datos obligatorios"
+    });
+  }
+
+  const candidatos = leerCandidatos();
+  const indice = candidatos.findIndex(function (item) {
+    return Number(item.id) === id;
+  });
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensaje: "Candidato no encontrado"
+    });
+  }
+
+  candidatos[indice] = {
+    ...candidatos[indice],
+    nombre: nombre,
+    rol: rol,
+    propuesta: propuesta
+  };
+
+  guardarCandidatos(candidatos);
+
+  res.json({
+    mensaje: "Candidato actualizado correctamente",
+    candidato: candidatos[indice]
+  });
+});
+
+app.delete("/api/candidatos/:id", function (req, res) {
+  const id = Number(req.params.id);
+  const candidatos = leerCandidatos();
+  const nuevosCandidatos = candidatos.filter(function (item) {
+    return Number(item.id) !== id;
+  });
+
+  if (nuevosCandidatos.length === candidatos.length) {
+    return res.status(404).json({
+      mensaje: "Candidato no encontrado"
+    });
+  }
+
+  guardarCandidatos(nuevosCandidatos);
+  res.json({
+    mensaje: "Candidato eliminado correctamente"
+  });
+});
+
 app.listen(PORT, function () {
   console.log("Servidor escuchando en http://localhost:" + PORT);
 });
-
-
