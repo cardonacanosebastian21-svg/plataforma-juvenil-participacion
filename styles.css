@@ -49,3 +49,57 @@ footer {
   padding: 15px;
   background-color: #eee;
 }
+
+/* =============================
+   Estilos para tarjetas de candidatos
+   (organización y lectura)
+   ============================= */
+
+.seccion-candidatos {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.contenedor-candidatos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.tarjeta-candidato {
+  border: 1px solid #ddd;
+  border-left: 5px solid #0caa14af;
+  border-radius: 10px;
+  padding: 18px;
+  background-color: #fff;
+}
+
+.tarjeta-candidato h3 {
+  color: #08ff67;
+  margin-top: 0;
+}
+
+.tarjeta-candidato button {
+  margin-top: 10px;
+  background-color: #0caa14af;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tarjeta-candidato button:hover {
+  background-color: #0caa14af;
+}
+
+.detalle-perfil {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #F9EEF3;
+  border-left: 5px solid #0caa14af;
+  border-radius: 8px;
+}
