@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -13,6 +13,17 @@ const rutaCandidatos = path.join(__dirname, "data", "candidatos.json");
 function leerCandidatos() {
   const data = fs.readFileSync(rutaCandidatos, "utf8");
   return JSON.parse(data);
+}
+
+const rutaVotos = path.join(__dirname, "data", "votos.json");
+
+function leerVotos() {
+  const data = fs.readFileSync(rutaVotos, "utf8");
+  return JSON.parse(data);
+}
+
+function guardarVotos(votos) {
+  fs.writeFileSync(rutaVotos, JSON.stringify(votos, null, 2));
 }
 
 function guardarCandidatos(candidatos) {

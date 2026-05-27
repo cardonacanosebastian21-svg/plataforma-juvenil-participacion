@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Votación Pedagógica</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Votación Pedagógica</h1>
+    <p>
+      Ejercicio académico para registrar un voto ficticio por un perfil.
+      No corresponde a una elección real.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Registrar voto</h2>
+
+      <p>
+        Ingresa una identificación ficticia y selecciona un perfil cargado desde el servidor.
+        No uses cédulas ni datos reales.
+      </p>
+
+      <input 
+        id="identificacionVotante" 
+        type="text" 
+        placeholder="Identificación ficticia. Ejemplo: EST001"
+      >
+
+      <select id="candidatoSeleccionado">
+        <option value="">Cargando candidatos...</option>
+      </select>
+
+      <button id="btnVotar" type="button">Registrar voto pedagógico</button>
+
+      <p id="mensajeVoto"></p>
+    </section>
+
+    <section>
+      <h2>Candidatos disponibles</h2>
+      <div id="contenedorCandidatosDisponibles"></div>
+    </section>
+
+    <section>
+      <h2>Consultar votos registrados</h2>
+      <p>
+        Esta consulta es solo para verificar que el archivo JSON recibe datos durante la práctica.
+      </p>
+
+      <button id="btnCargarVotos" type="button">Cargar votos</button>
+
+      <div id="contenedorVotos"></div>
+    </section>
+
+    <section>
+      <a href="index.html">Volver a perfiles</a>
+    </section>
+  </main>
+
+  <script>
+    const btnVotar = document.getElementById("btnVotar");
+    const mensajeVoto = document.getElementById("mensajeVoto");
+    const btnCargarVotos = document.getElementById("btnCargarVotos");
+    const contenedorVotos = document.getElementById("contenedorVotos");
+    const candidatoSeleccionado = document.getElementById("candidatoSeleccionado");
+    const contenedorCandidatosDisponibles = document.getElementById("contenedorCandidatosDisponibles");
+
+    async function cargarCandidatos() {
+      const respuesta = await fetch("/api/candidatos");
+      const candidatos = await respuesta.json();
+
+      candidatoSeleccionado.innerHTML = '<option value="">Selecciona un candidato</option>';
+      contenedorCandidatosDisponibles.innerHTML = "";
+
+      if (candidatos.length === 0) {
+        candidatoSeleccionado.innerHTML = '<option value="">No hay candidatos registrados</option>';
+        contenedorCandidatosDisponibles.innerHTML = "<p>No hay candidatos registrados todavía.</p>";
+        return;
+      }
+
+      candidatos.forEach(function (candidato) {
+        const opcion = document.createElement("option");
+        opcion.value = candidato.nombre;
+        opcion.textContent = candidato.nombre;
+        candidatoSeleccionado.appendChild(opcion);
+
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta-guardada");
+
+        tarjeta.innerHTML = `
+          <h3>${candidato.nombre}</h3>
+          <p><strong>Rol:</strong> ${candidato.rol}</p>
+          <p><strong>Propuesta:</strong> ${candidato.propuesta}</p>
+          <p><strong>Estado:</strong> ${candidato.estado}</p>
+        `;
+
+        contenedorCandidatosDisponibles.appendChild(tarjeta);
+      });
+    }
+
+    btnVotar.addEventListener("click", async function () {
+      const identificacion = document.getElementById("identificacionVotante").value.trim();
+      const candidato = candidatoSeleccionado.value;
+
+      if (!identificacion || !candidato) {
+        mensajeVoto.textContent = "Completa identificación ficticia y selecciona un candidato.";
+        return;
+      }
+
+      const respuesta = await fetch("/api/votos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          identificacion: identificacion,
+          candidato: candidato
+        })
+      });
+
+      const resultado = await respuesta.json();
+      mensajeVoto.textContent = resultado.mensaje;
+
+      if (respuesta.ok) {
+        document.getElementById("identificacionVotante").value = "";
+        candidatoSeleccionado.value = "";
+      }
+    });
+
+    async function cargarVotos() {
+      const respuesta = await fetch("/api/votos");
+      const votos = await respuesta.json();
+
+      contenedorVotos.innerHTML = "";
+
+      if (votos.length === 0) {
+        contenedorVotos.innerHTML = "<p>No hay votos registrados todavía.</p>";
+        return;
+      }
+
+      votos.forEach(function (voto) {
+        const div = document.createElement("div");
+        div.classList.add("tarjeta-guardada");
+
+        div.innerHTML = `
+          <p><strong>Identificación:</strong> ${voto.identificacion}</p>
+          <p><strong>Candidato:</strong> ${voto.candidato}</p>
+          <p><strong>Fecha:</strong> ${voto.fecha}</p>
+        `;
+
+        contenedorVotos.appendChild(div);
+      });
+    }
+
+    btnCargarVotos.addEventListener("click", cargarVotos);
+
+    cargarCandidatos();
+  </script>
+
+</body>
+</html>
