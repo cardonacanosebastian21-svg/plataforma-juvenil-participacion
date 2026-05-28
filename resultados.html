@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados Pedagógicos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Resultados Pedagógicos</h1>
+    <p>
+      Esta pantalla muestra el conteo correcto de votos registrados en el archivo JSON.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Conteo de votos</h2>
+      <button id="btnCargarResultados" type="button">Cargar resultados</button>
+      <div id="contenedorResultados"></div>
+    </section>
+
+    <section>
+      <a href="votar.html">Volver a votación</a>
+    </section>
+  </main>
+
+  <script>
+    const btnCargarResultados = document.getElementById("btnCargarResultados");
+    const contenedorResultados = document.getElementById("contenedorResultados");
+
+    async function cargarResultados() {
+      const respuesta = await fetch("/api/votos");
+      const votos = await respuesta.json();
+
+      const resultados = {};
+
+      votos.forEach(function (voto) {
+        if (!resultados[voto.candidato]) {
+          resultados[voto.candidato] = 0;
+        }
+
+        resultados[voto.candidato] = resultados[voto.candidato] + 1;
+      });
+
+      contenedorResultados.innerHTML = "";
+
+      if (Object.keys(resultados).length === 0) {
+        contenedorResultados.innerHTML = "<p>No hay votos registrados todavía.</p>";
+        return;
+      }
+
+      Object.keys(resultados).forEach(function (candidato) {
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta-guardada");
+
+        tarjeta.innerHTML = `
+          <h3>${candidato}</h3>
+          <p><strong>Votos:</strong> ${resultados[candidato]}</p>
+        `;
+
+        contenedorResultados.appendChild(tarjeta);
+      });
+    }
+
+    btnCargarResultados.addEventListener("click", cargarResultados);
+  </script>
+
+</body>
+</html>
