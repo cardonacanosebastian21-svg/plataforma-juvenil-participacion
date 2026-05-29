@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tablero de Resultados</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Tablero de Resultados</h1>
+    <p>
+      Consulta pedagógica de resultados generados a partir de los votos registrados.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Resumen general</h2>
+      <div id="resumenGeneral"></div>
+    </section>
+
+    <section>
+      <h2>Resultados por candidato</h2>
+      <button id="btnCargarTablero" type="button">Cargar tablero</button>
+      <div id="contenedorTablero"></div>
+    </section>
+
+    <section>
+      <a href="votar.html">Ir a votación</a>
+      <br>
+      <a href="index.html">Volver a perfiles</a>
+    </section>
+  </main>
+
+  <script>
+    const btnCargarTablero = document.getElementById("btnCargarTablero");
+    const contenedorTablero = document.getElementById("contenedorTablero");
+    const resumenGeneral = document.getElementById("resumenGeneral");
+
+    async function cargarDatos() {
+      const respuestaCandidatos = await fetch("/api/candidatos");
+      const candidatos = await respuestaCandidatos.json();
+
+      const respuestaVotos = await fetch("/api/votos");
+      const votos = await respuestaVotos.json();
+
+      return {
+        candidatos: candidatos,
+        votos: votos
+      };
+    }
+
+    function calcularResultados(candidatos, votos) {
+      const resultados = [];
+
+      candidatos.forEach(function (candidato) {
+        const votosDelCandidato = votos.filter(function (voto) {
+          return voto.candidato === candidato.nombre;
+        });
+
+        resultados.push({
+          nombre: candidato.nombre,
+          rol: candidato.rol,
+          propuesta: candidato.propuesta,
+          votos: votosDelCandidato.length
+        });
+      });
+
+      return resultados;
+    }
+
+    function calcularTotalVotos(resultados) {
+      let total = 0;
+
+      resultados.forEach(function (resultado) {
+        total = total + resultado.votos;
+      });
+
+      return total;
+    }
+
+    function obtenerGanadorPedagogico(resultados) {
+      let mayor = null;
+
+      resultados.forEach(function (resultado) {
+        if (mayor === null || resultado.votos > mayor.votos) {
+          mayor = resultado;
+        }
+      });
+
+      return mayor;
+    }
+
+    btnCargarTablero.addEventListener("click", async function () {
+      const datos = await cargarDatos();
+      const resultados = calcularResultados(datos.candidatos, datos.votos);
+      const totalVotos = calcularTotalVotos(resultados);
+      const ganador = obtenerGanadorPedagogico(resultados);
+
+      resumenGeneral.innerHTML = `
+        <div class="tarjeta-guardada">
+          <p><strong>Total de votos registrados:</strong> ${totalVotos}</p>
+          <p><strong>Mayor resultado:</strong> ${ganador ? ganador.nombre : "Sin votos registrados"}</p>
+        </div>
+      `;
+
+      contenedorTablero.innerHTML = "";
+
+      if (resultados.length === 0) {
+        contenedorTablero.innerHTML = "<p>No hay candidatos registrados.</p>";
+        return;
+      }
+
+      resultados.forEach(function (resultado) {
+        let porcentaje = 0;
+
+        if (totalVotos > 0) {
+          porcentaje = Math.round((resultado.votos / totalVotos) * 100);
+        }
+
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta-guardada");
+
+        tarjeta.innerHTML = `
+          <h3>${resultado.nombre}</h3>
+          <p><strong>Rol:</strong> ${resultado.rol}</p>
+          <p><strong>Propuesta:</strong> ${resultado.propuesta}</p>
+          <p><strong>Votos:</strong> ${resultado.votos}</p>
+          <p><strong>Porcentaje:</strong> ${porcentaje}%</p>
+
+          <div class="barra-resultado">
+            <div class="barra-porcentaje" style="width: ${porcentaje}%;">
+              ${porcentaje}%
+            </div>
+          </div>
+        `;
+
+        contenedorTablero.appendChild(tarjeta);
+      });
+    });
+  </script>
+
+</body>
+</html>

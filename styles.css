@@ -184,12 +184,30 @@ footer {
 
 .mensaje-formulario--error {
   background-color: #fdeaea;
-  color: #8b1a1a;
-  border-left: 4px solid #c0392b;
+  color: #026d07;
+  border-left: 4px solid #30f716;
 }
 
 .lista-vacia {
   grid-column: 1 / -1;
   color: #666;
   font-style: italic;
+}
+
+.barra-resultado {
+  width: 100%;
+  background-color: #F9EEF3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.barra-porcentaje {
+  height: 18px;
+  background-color: #026d07;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
 }
